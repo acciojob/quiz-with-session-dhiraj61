@@ -2,6 +2,9 @@
 
 // Do not change code below this line
 // This code will just display the questions to the screen
+let questionsElement = document.getElementById("questions");
+let submit = document.getElementById("submit");
+let score = document.getElementById("score");
 const questions = [
   {
     question: "What is the capital of France?",
@@ -43,9 +46,13 @@ function renderQuestions() {
       choiceElement.setAttribute("type", "radio");
       choiceElement.setAttribute("name", `question-${i}`);
       choiceElement.setAttribute("value", choice);
-      if (userAnswers[i] === choice) {
+       if (sessionStorage?.getItem(`${i}`) === choice) {
         choiceElement.setAttribute("checked", true);
       }
+	choiceElement.addEventListener("click",()=>{
+		sessionStorage?.removeItem(`${i}`);
+		sessionStorage?.setItem(`${i}`,choiceElement.value);
+	})
       const choiceText = document.createTextNode(choice);
       questionElement.appendChild(choiceElement);
       questionElement.appendChild(choiceText);
@@ -54,3 +61,13 @@ function renderQuestions() {
   }
 }
 renderQuestions();
+
+submit.addEventListener("click",()=>{
+	let count = 0;
+	for(let i = 0; i < questions.length; i++){
+		if(sessionStorage.getItem(`${i}`) === questions[i].answer){
+			count++;
+		}
+	}
+	score.textContent = count;
+})

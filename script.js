@@ -69,5 +69,6 @@ submit.addEventListener("click",()=>{
 			count++;
 		}
 	}
-	score.textContent = count;
+	score.textContent = `Your score is ${count} out of 5`;
+	localStorage.setItem("score",count);
 })
